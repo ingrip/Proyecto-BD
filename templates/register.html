@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <style>
+    :root {
+      --p1: #b7a192;
+      --p2: #3b3a3a;
+      --p3: #fed0bd;
+      --p4: #f0a790;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--p1), var(--p3));
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Quicksand', 'Poppins', sans-serif;
+      margin: 0;
+    }
+
+    .register-card {
+      background: #ffffffc9;
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: floatIn 0.8s ease;
+      margin-top: 120px;
+    }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .register-card h2 {
+      margin-bottom: 1.5rem;
+      color: #555;
+      font-weight: 600;
+      font-size: 1.8rem;
+    }
+
+    .form-control {
+      border: none;
+      border-radius: 1rem;
+      padding: 0.9rem 1.2rem;
+      background-color: #f9f9f9;
+      box-shadow: inset 2px 2px 5px #d4d4d4, inset -2px -2px 5px #fff;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(10, 8, 3, 0.6);
+      outline: none;
+    }
+
+    .btn-primary {
+      border: none;
+      border-radius: 2rem;
+      background: linear-gradient(135deg, var(--p1), var(--p3));
+      color: #fff;
+      font-weight: 600;
+      padding: 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(170, 180, 255, 0.6);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--p3), var(--p1));
+      transform: scale(1.03);
+      box-shadow: 0 6px 14px rgba(150, 160, 255, 0.5);
+    }
+
+    .cute-logo {
+      width: 180px;
+      height: 180px;
+      margin-bottom: 1rem;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-soft {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      margin: 0.8rem 1rem;
+      width: calc(100% - 2rem);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(59,58,58,0.05);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      height: 70px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logonav {
+      height: 300px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    }
+
+    .input-group-text {
+      background-color: #f9f9f9;
+      border: none;
+      border-radius: 0 1rem 1rem 0;
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: #070708;
+      font-weight: 600;
+    }
+
+    a:hover {
+      color: #ffd06c;
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light nav-soft py-2">
+    <div class="container-fluid px-4">
+      <img src="{{ url_for('static', filename='navbar2.png') }}" alt="Logo" class="logonav">
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item">
+            <a class="btn btn-light btn-sm rounded-pill me-2" href="{{ url_for('login') }}">Iniciar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="register-card">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="cute-logo">
+    <h2>Crear cuenta</h2>
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <div class="mb-3">
+        <input type="text" class="form-control" name="name" placeholder="Nombre completo" required>
+      </div>
+
+      <div class="mb-3">
+        <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
+      </div>
+
+      <!-- Campo de contraseña con ojito -->
+      <div class="mb-3 input-group">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+        <span class="input-group-text" id="togglePassword">
+          <i class="bi bi-eye-slash-fill"></i>
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+
+      {% if error %}
+        <p class="error mt-3">{{ error }}</p>
+      {% endif %}
+
+      <p class="mt-3">¿Ya tienes cuenta?
+        <a href="{{ url_for('login') }}">Inicia sesión aquí</a>
+      </p>
+    </form>
+  </div>
+
+  <script>
+    // Mostrar / ocultar contraseña
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.innerHTML = type === 'password'
+        ? '<i class="bi bi-eye-slash-fill"></i>'
+        : '<i class="bi bi-eye-fill"></i>';
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}CritiCats — Inicio{% endblock %}
+
+{% block content %}
+<style>
+body {
+  background: linear-gradient(135deg, var(--p1), var(--p3));
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #3b3a3a;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.hero a.btn-primary {
+  background: linear-gradient(135deg, var(--p2), var(--p4));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.hero a.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.featured-articles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.article-card {
+  width: 260px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, var(--p1), var(--p3));
+  color: white;
+}
+
+.article-card i {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: var(--p2);
+}
+
+.article-card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+}
+
+.article-card p {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.categories-preview {
+  text-align: center;
+  margin: 3rem 0 2rem;
+}
+
+.categories-preview h2 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.category-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.category-preview-card {
+  width: 140px;
+  height: 140px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.category-preview-card i {
+  font-size: 2.2rem;
+  color: var(--p2);
+  margin-bottom: 0.5rem;
+}
+
+.category-preview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.category-name {
+  font-weight: 600;
+}
+</style>
+
+<div class="hero">
+  <h1>¡Hola, {{ usuario }}!</h1>
+  <p>Descubre artículos y novedades sobre tus temas favoritos.</p>
+  <a href="{{ url_for('perfil') }}" class="btn-primary">Ir a mi perfil</a>
+</div>
+
+<div class="featured-articles">
+  {% for art in articulos_destacados %}
+    <a href="{{ url_for('articulo', id=art[0]) }}" style="text-decoration: none; color: inherit;">
+      <div class="article-card">
+        {% if art[3] %}  {# si tiene contenido, usamos las primeras palabras #}
+          <i class="fas fa-newspaper"></i>
+          <h3>{{ art[1] }}</h3>
+          <p>{{ art[3][:120] }}{% if art[3]|length > 120 %}...{% endif %}</p>
+        {% else %}
+          <i class="fas fa-file-alt"></i>
+          <h3>{{ art[1] }}</h3>
+          <p>No hay contenido disponible</p>
+        {% endif %}
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+
+<div class="categories-preview">
+  <h2>Categorías Populares</h2>
+  <div class="category-preview-container">
+    {% for cat in categorias[:6] %}
+      <a href="{{ url_for('articulos', categoria=cat) }}" class="text-decoration-none">
+        <div class="category-preview-card">
+          <i class="fas {{ iconos.get(cat, 'fa-film') }}"></i>
+          <div class="category-name">{{ cat }}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

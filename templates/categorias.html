@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Categorías — CritiCats{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, var(--p1), var(--p3));
+  }  .category-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .category-card {
+    width: 160px;
+    height: 160px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, #fde3d8, #f8f5f2);
+  }
+  .category-card i {
+    font-size: 2.5rem;
+    color: #3b3a3a;
+    margin-bottom: 0.5rem;
+  }
+  .category-name {
+    font-weight: 600;
+    color: #3b3a3a;
+  }
+  .card-soft {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  .card-soft:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+  h4 {
+    color: #3b3a3a;
+    font-weight: 600;
+  }
+  .hint {
+    color: #7a7672;
+    font-size: 0.9rem;
+  }
+  .category-btn {
+    border-radius: 1rem;
+    border: 2px solid #e1d4c8;
+    background: linear-gradient(135deg, #f8f5f2, #fff);
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .category-btn:hover {
+    background: linear-gradient(135deg, #fde3d8, #f8f5f2);
+    border-color: #c3a999;
+  }
+</style>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card-soft mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="m-0">Bienvenido, {{ usuario }}</h4>
+          <small class="hint">Selecciona una categoría para ver artículos</small>
+        </div>
+        <a class="btn btn-outline-dark" href="{{ url_for('perfil') }}">Ir a perfil</a>
+      </div>
+    </div>
+  </div>
+
+  {% if categorias %}
+<div class="category-container">
+    <a href="{{ url_for('articulos') }}" class="text-decoration-none">
+        <div class="category-card">
+            <i class="fas fa-film"></i>
+            <div class="category-name">Todas</div>
+        </div>
+    </a>
+
+    {% for cat in categorias %}
+      <a href="{{ url_for('articulos', categoria=cat) }}" class="text-decoration-none">
+        <div class="category-card">
+          <i class="fas {{ iconos.get(cat, 'fa-film') }}"></i>
+          <div class="category-name">{{ cat }}</div>
+        </div>
+      </a>
+    {% endfor %}
+</div>
+
+  {% else %}
+    <div class="col-12">
+      <div class="card-soft">No hay categorías aún.</div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

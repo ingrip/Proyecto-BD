@@ -1,0 +1,110 @@
+db.Users.drop();
+db.Articles.drop();
+db.Tags.drop();
+db.Categories.drop();
+db.Comment.drop();
+
+// Luego créalas sin validadores
+db.createCollection("Users");
+db.createCollection("Articles");
+db.createCollection("Tags");
+db.createCollection("Categories");
+db.createCollection("Comment");
+
+db.Users.insertMany([
+  { _id: 1, name: "Ingrid", email: "a367760@uach.mx", password: "123" },
+  { _id: 2, name: "Mau", email: "a367785@uach.mx", password: "123" },
+  { _id: 3, name: "Fer", email: "a368068@uach.mx", password: "123" },
+  { _id: 4, name: "Mara", email: "a367668@uach.mx", password: "123" }
+]);
+
+db.Categories.insertMany([
+  { _id: 1, name: "C1" },
+  { _id: 2, name: "C2" },
+  { _id: 3, name: "C3" },
+  { _id: 4, name: "C4" }
+]);
+
+db.Tags.insertMany([
+  { _id: 1, name: "T1" },
+  { _id: 2, name: "T2" },
+  { _id: 3, name: "T3" },
+  { _id: 4, name: "T4" }
+]);
+
+db.Articles.insertMany([
+  {
+    _id: 1,
+    title: "A1",
+    text: "Contenido art 1",
+    date: new Date("2025-11-05"),
+    email: "a368068@uach.mx",
+    tags: [1],
+    categories: [2, 3]
+  },
+  {
+    _id: 2,
+    title: "A2",
+    text: "Contenido art 2",
+    date: new Date("2025-11-05"),
+    email: "a367785@uach.mx",
+    tags: [2, 3],
+    categories: [1, 2]
+  },
+  {
+    _id: 3,
+    title: "A3",
+    text: "Contenido art 3",
+    date: new Date("2025-11-05"),
+    email: "a368068@uach.mx",
+    tags: [1, 2],
+    categories: [3, 4]
+  },
+  {
+    _id: 4,
+    title: "A4",
+    text: "Contenido art 4",
+    date: new Date("2025-11-05"),
+    email: "a367668@uach.mx",
+    tags: [3, 4],
+    categories: [4]
+  }
+]);
+
+db.Comment.insertMany([
+  {
+    _id: 1,
+    idUser: 1,
+    _idArt: 4,
+    date: new Date("2025-11-05"),
+    text: "Comentario 1"
+  },
+  {
+    _id: 2,
+    idUser: 2,
+    _idArt: 3,
+    date: new Date("2025-11-05"),
+    text: "Comentario 2"
+  },
+  {
+    _id: 3,
+    idUser: 3,
+    _idArt: 2,
+    date: new Date("2025-11-05"),
+    text: "Comentario 3"
+  },
+  {
+    _id: 4,
+    idUser: 4,
+    _idArt: 1,
+    date: new Date("2025-11-05"),
+    text: "Comentario 4"
+  },
+  {
+    _id: 5,
+    idUser: 3,
+    _idArt: 1,
+    date: new Date("2025-11-05"),
+    text: "Comentario 5"
+  }
+]);

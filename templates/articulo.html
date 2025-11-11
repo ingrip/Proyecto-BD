@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}{{ articulo.title if articulo.title is defined else (articulo[1] if articulo|length>1 else 'Artículo') }}{% endblock %}
+
+{% block content %}
+<style>
+  .card-soft {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+  .card-soft:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  }
+  .hint {
+    color: #7a7672;
+    font-size: 0.9rem;
+  }
+  .badge-pill {
+    background: #f8f5f2;
+    color: #3b3a3a;
+    font-weight: 500;
+    padding: 0.5em 1em;
+    border-radius: 50px;
+    margin-right: 0.3rem;
+    transition: all 0.3s ease;
+  }
+  .badge-pill:hover {
+    background: #fde3d8;
+    color: #b07d5b;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #fde3d8, #f8f5f2);
+    border: none;
+    color: #3b3a3a;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #f8e0d4, #f3ebe7);
+    color: #b07d5b;
+  }
+  .comment-card {
+    background: #fdfdfd;
+    border-radius: 0.8rem;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+  }
+  .comment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  }
+</style>
+
+<div class="mb-3">
+  <a class="btn btn-light" href="{{ url_for('categorias') }}">← Volver</a>
+</div>
+
+<div class="card-soft">
+  <h3 style="color:#3b3a3a;">
+    {{ articulo.title if articulo.title is defined else (articulo[1] if articulo|length>1 else 'Sin título') }}
+  </h3>
+  <small class="hint">Autor: {{ articulo.email if articulo.email is defined else (articulo[2] if articulo|length>2 else '') }}</small>
+
+  <hr/>
+  <div class="mb-4">
+    <p>{{ articulo.text if articulo.text is defined else (articulo[3] if articulo|length>3 else '') }}</p>
+  </div>
+
+  <div class="mb-3">
+    <strong>Categorías:</strong>
+    {% for c in categorias %}
+      <a class="badge-pill" href="{{ url_for('articulos', categoria=c) }}">{{ c }}</a>
+    {% endfor %}
+  </div>
+
+<div class="mb-3">
+  <strong>Tags:</strong>
+  {% for t in tags %}
+    <a class="badge-pill" href="{{ url_for('articulos_por_tag', tag=t) }}">{{ t }}</a>
+  {% endfor %}
+</div>
+
+
+  <hr/>
+  <h5 class="mb-3">Comentarios</h5>
+  {% if comentarios %}
+  {% for c in comentarios %}
+    <div class="comment-card">
+      <div class="small text-muted mb-1">Usuario:  {{ c.autor }}</div>
+      <div>{{ c.contenido }}</div>
+    </div>
+  {% endfor %}
+
+  {% else %}
+    <div class="text-muted fst-italic">No hay comentarios aún.</div>
+  {% endif %}
+
+  <form method="POST" class="mt-3">
+    <div class="mb-2">
+      <textarea name="comentario" class="form-control" rows="3" placeholder="Escribe tu comentario..." required></textarea>
+    </div>
+    <button class="btn btn-primary">Comentar</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Artículos - {{ categoria }}{% endblock %}
+
+{% block content %}
+<style>
+  .card-soft {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+  .card-soft:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  }
+  .article-card h5 a {
+    color: #3b3a3a;
+    transition: color 0.2s ease;
+  }
+  .article-card h5 a:hover {
+    color: #b07d5b;
+    text-decoration: underline;
+  }
+  .hint {
+    color: #7a7672;
+    font-size: 0.9rem;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #fde3d8, #f8f5f2);
+    border: none;
+    color: #3b3a3a;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #f8e0d4, #f3ebe7);
+    color: #b07d5b;
+  }
+</style>
+
+<div class="mb-3">
+  <a class="btn btn-light" href="{{ url_for('categorias') }}">← Volver</a>
+</div>
+
+<h4 class="mb-4">{{ categoria }}</h4>
+
+<div class="row g-4">
+  {% if articulos %}
+    {% for art in articulos %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card-soft article-card d-flex flex-column justify-content-between h-100">
+          <div>
+            <h5>
+              <a href="{{ url_for('articulo', id=art[0]) }}">{{ art[1] }}</a>
+            </h5>
+            <small class="hint">Autor: {{ art[2] }} • {{ art[4] if art|length > 4 else '' }}</small>
+            <p class="mt-2 mb-0 text-muted">{{ art[3][:160] }}{% if art[3]|length >160 %}...{% endif %}</p>
+          </div>
+          <div class="mt-3 text-end">
+            <a href="{{ url_for('articulo', id=art[0]) }}" class="btn btn-primary px-4">Leer</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-12">
+      <div class="card-soft text-center p-4">No hay artículos en esta categoría.</div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
